@@ -14,41 +14,29 @@ class SemanticMatch(BaseModel):
     base_semantic_id: str
     match_semantic_id: str
     score: float
+    meta_information: Dict
 
 
-class SemanticMatcher:
-    def __init__(
-            self,
-            equivalence_table: Optional[Dict[str, List[SemanticMatch]]] = None
-    ):
-        if equivalence_table is None:
-            equivalence_table = {}
-        self.equivalence_table: Dict[str, List[SemanticMatch]] = equivalence_table
+class EquivalenceTable(BaseModel):
+    matches: Dict[str, List[SemanticMatch]]
 
-    def add_semantic_match(
-            self,
-            base_semantic_id: str,
-            match_semantic_id: str,
-            score: float,
-    ) -> None:
-        semantic_match: SemanticMatch = SemanticMatch(
-            base_semantic_id=base_semantic_id,
-            match_semantic_id=match_semantic_id,
-            score=score,
-        )
-        if self.equivalence_table.get(base_semantic_id) is not None:
-            self.equivalence_table[base_semantic_id].append(semantic_match)
+    def add_semantic_match(self, match: SemanticMatch) -> None:
+        if self.matches.get(match.base_semantic_id) is not None:
+            self.equivalence_table[match.base_semantic_id].append(match)
         else:
-            self.equivalence_table[base_semantic_id] = [semantic_match]
+            self.equivalence_table[match.base_semantic_id] = [match]
 
-    def remove_semantic_match(
-            self,
-            semantic_match: SemanticMatch
-    ) -> None:
-        if self.equivalence_table.get(semantic_match.base_semantic_id) is not None:
-            self.equivalence_table.get(semantic_match.base_semantic_id).remove(semantic_match)
-            if len(self.equivalence_table.get(semantic_match.base_semantic_id)) == 0:
-                self.equivalence_table.pop(semantic_match.base_semantic_id)
+    def remove_semantic_match(self, match: SemanticMatch) -> None:
+        if self.equivalence_table.get(match.base_semantic_id) is not None:
+            self.equivalence_table.get(match.base_semantic_id).remove(match)
+            if len(self.equivalence_table.get(match.base_semantic_id)) == 0:
+                self.equivalence_table.pop(match.base_semantic_id)
 
-    def get_matches(self, semantic_id: str) -> Optional[List[SemanticMatch]]:
-        return self.equivalence_table.get(semantic_id)
+    def to_file(self, filename: str) -> None:
+        with open(filename, "w") as file:
+            file.write(self.model_dump_json(indent=4))
+
+    @classmethod
+    def from_file(cls, filename: str) -> "EquivalenceTable":
+        with open(filename, "r") as file:
+            return EquivalenceTable.model_validate_json(file.read())

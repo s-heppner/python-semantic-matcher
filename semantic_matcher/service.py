@@ -14,12 +14,12 @@ class SemanticMatchingService:
         self.router = APIRouter()
         self.router.add_api_route(
             "/get_match",
-            self.get_match,
+            self.get_matches,
             methods=["GET"]
         )
         self.semantic_matcher: matcher.SemanticMatcher = semantic_matcher
 
-    def get_match(
+    def get_matches(
             self,
             request_body: service_model.MatchRequest
     ) -> service_model.MatchResponse:
