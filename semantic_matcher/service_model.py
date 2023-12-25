@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-import matcher
+import model
 
 
 class MatchRequest(BaseModel):
@@ -15,10 +15,11 @@ class MatchRequest(BaseModel):
     :ivar definition: Optional definition of the resolved semantic ID for NLP matching
     """
     semantic_id: str
+    score_limit: float
     local_only: bool = True
     name: Optional[str] = None
     definition: Optional[str] = None
 
 
 class MatchResponse(BaseModel):
-    matches: List[matcher.SemanticMatch]
+    matches: List[model.SemanticMatch]
