@@ -1,0 +1,4 @@
+[SERVICE]
+endpoint=http://127.0.0.1
+port=8000
+equivalence_table_file=./data/equivalence_table.json

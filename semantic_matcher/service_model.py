@@ -21,5 +21,5 @@ class MatchRequest(BaseModel):
     definition: Optional[str] = None
 
 
-class MatchResponse(BaseModel):
+class MatchesList(BaseModel):
     matches: List[model.SemanticMatch]

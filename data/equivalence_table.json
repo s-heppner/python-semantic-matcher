@@ -1,0 +1,32 @@
+{
+    "matches": {
+        "s-heppner.com/semanticID/one": [
+            {
+                "base_semantic_id": "s-heppner.com/semanticID/one",
+                "match_semantic_id": "s-heppner.com/semanticID/1",
+                "score": 1.0,
+                "meta_information": {
+                    "matchSource": "Defined by Sebastian Heppner"
+                }
+            },
+            {
+                "base_semantic_id": "s-heppner.com/semanticID/one",
+                "match_semantic_id": "s-heppner.com/semanticID/two",
+                "score": 0.8,
+                "meta_information": {
+                    "matchSource": "Defined by Sebastian Heppner"
+                }
+            }
+        ],
+        "s-heppner.com/semanticID/two": [
+            {
+                "base_semantic_id": "s-heppner.com/semanticID/two",
+                "match_semantic_id": "s-heppner.com/semanticID/2",
+                "score": 1.0,
+                "meta_information": {
+                    "matchSource": "Defined by Sebastian Heppner"
+                }
+            }
+        ]
+    }
+}
