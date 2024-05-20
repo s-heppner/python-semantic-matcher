@@ -142,4 +142,4 @@ if __name__ == '__main__':
     APP.include_router(
         SEMANTIC_MATCHING_SERVICE.router
     )
-    uvicorn.run(APP, host="127.0.0.1", port=int(config["SERVICE"]["PORT"]))
+    uvicorn.run(APP, host="0.0.0.0", port=int(config["SERVICE"]["PORT"]))
