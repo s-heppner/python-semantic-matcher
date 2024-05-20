@@ -40,6 +40,16 @@ class EquivalenceTable(BaseModel):
         for match in equivalence_table_result:
             if match.score > score_limit:
                 matching_result.append(match)
+                rec_result = self.get_local_matches(match.match_semantic_id, score_limit/match.score)
+                for rec_match in rec_result:
+                    rec_match.base_semantic_id = match.base_semantic_id
+                    rec_match.score *= match.score
+                    if "path" not in rec_match.meta_information:
+                        rec_match.meta_information["path"] = []
+                    rec_match.meta_information["path"].insert(0, match.match_semantic_id)
+                print(f"Recursive call local matches on id: {match.match_semantic_id} with limit {[score_limit/match.score]}: {rec_result}")
+                if rec_result is not None:
+                    matching_result += rec_result
         return matching_result
 
     def get_all_matches(self) -> List[SemanticMatch]:
