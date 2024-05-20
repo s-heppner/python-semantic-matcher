@@ -9,5 +9,5 @@ using Python.
 docker build -t semantic_matching_service .
 ```
 ```commandline
-docker run -p 8000:8000 semantic_matching_service
+docker run -d -p 8000:8000 semantic_matching_service
 ```
