@@ -36,8 +36,8 @@ class EquivalenceTable(BaseModel):
         equivalence_table_result = self.matches.get(semantic_id)
         if equivalence_table_result is None:
             return []
+        matching_result = []
         for match in equivalence_table_result:
-            matching_result = []
             if match.score > score_limit:
                 matching_result.append(match)
         return matching_result
