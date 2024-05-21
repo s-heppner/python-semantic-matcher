@@ -22,7 +22,8 @@ class EquivalenceTable(BaseModel):
 
     def add_semantic_match(self, match: SemanticMatch) -> None:
         if self.matches.get(match.base_semantic_id) is not None:
-            self.matches[match.base_semantic_id].append(match)
+            if match not in self.matches[match.base_semantic_id]:
+                self.matches[match.base_semantic_id].append(match)
         else:
             self.matches[match.base_semantic_id] = [match]
 
