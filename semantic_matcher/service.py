@@ -66,8 +66,10 @@ class SemanticMatchingService:
         return {"message": "Hello, World!"}
 
     def get_all_matches(self):
+        """
+        Returns all matches stored in the equivalence table-
+        """
         matches = self.equivalence_table.get_all_matches()
-        print(matches)
         return matches
 
     def get_matches(
