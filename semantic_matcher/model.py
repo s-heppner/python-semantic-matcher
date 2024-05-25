@@ -42,6 +42,9 @@ class EquivalenceTable(BaseModel):
                 matching_result.append(match)
         return matching_result
 
+    def get_all_matches(self) -> List[SemanticMatch]:
+        return self.matches
+
     def to_file(self, filename: str) -> None:
         with open(filename, "w") as file:
             file.write(self.model_dump_json(indent=4))

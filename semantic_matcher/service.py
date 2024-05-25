@@ -38,6 +38,17 @@ class SemanticMatchingService:
             equivalences that this :class:`~.SemanticMatchingService` contains.
         """
         self.router = APIRouter()
+
+        self.router.add_api_route(
+            "/",
+            self.read_root,
+            methods=["GET"]
+        )
+        self.router.add_api_route(
+            "/all_matches",
+            self.get_all_matches,
+            methods=["GET"]
+        )
         self.router.add_api_route(
             "/get_matches",
             self.get_matches,
@@ -50,6 +61,14 @@ class SemanticMatchingService:
         )
         self.endpoint: str = endpoint
         self.equivalence_table: model.EquivalenceTable = equivalences
+
+    def read_root(self):
+        return {"message": "Hello, World!"}
+
+    def get_all_matches(self):
+        matches = self.equivalence_table.get_all_matches()
+        print(matches)
+        return matches
 
     def get_matches(
             self,
