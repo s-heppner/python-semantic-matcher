@@ -3,9 +3,8 @@ from typing import List
 import requests
 from fastapi import APIRouter
 
-import model
-import service_model
-from resolver_modules import service as resolver_service
+from semantic_matcher import model, service_model
+from semantic_id_resolver import service as resolver_service
 
 
 class SemanticMatchingService:
