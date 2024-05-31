@@ -5,6 +5,7 @@ from fastapi import APIRouter
 
 import model
 import service_model
+from semantic_id_resolver import service as resolver_service
 
 
 class SemanticMatchingService:
@@ -93,6 +94,8 @@ class SemanticMatchingService:
         additional_remote_matches: List[model.SemanticMatch] = []
         for match in matches:
             remote_matching_service = self._get_matcher_from_semantic_id(match.match_semantic_id)
+            if remote_matching_service is None:
+                continue
             remote_matching_request = service_model.MatchRequest(
                 semantic_id=match.match_semantic_id,
                 # This is a simple "Ungleichung"
@@ -130,7 +133,22 @@ class SemanticMatchingService:
 
         :returns: The endpoint with which the `SemanticMatchingService` can be accessed
         """
-        return self.endpoint  # todo
+        request_body = resolver_service.SMSRequest(semantic_id=semantic_id)
+        endpoint = config['RESOLVER']['endpoint']
+        port = config['RESOLVER'].getint('port')
+        response = requests.get(f"{endpoint}:{port}/get_semantic_matching_service", json=request_body.dict())
+
+        # Check if the response is successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response and construct SMSResponse object
+            response_json = response.json()
+            sms_response = resolver_service.SMSResponse(
+                semantic_matching_service_endpoint=response_json['semantic_matching_service_endpoint'],
+                meta_information=response_json['meta_information']
+            )
+            return sms_response.semantic_matching_service_endpoint
+
+        return None
 
 
 if __name__ == '__main__':
