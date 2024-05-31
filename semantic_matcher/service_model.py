@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-from semantic_matcher import model
+import model
 
 
 class MatchRequest(BaseModel):
