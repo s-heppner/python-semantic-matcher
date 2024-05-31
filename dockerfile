@@ -16,6 +16,9 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Set PYTHONPATH to the app directory
+ENV PYTHONPATH=/app
+
 # Expose the port that FastAPI will run on
 EXPOSE 8000
 
