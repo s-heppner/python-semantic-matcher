@@ -92,6 +92,9 @@ class SemanticMatchingService:
         # Now look for remote matches:
         additional_remote_matches: List[model.SemanticMatch] = []
         for match in matches:
+            if match.base_semantic_id.split("/")[0] == match.match_semantic_id.split("/")[0]:
+                #match_id is local
+                continue
             remote_matching_service = self._get_matcher_from_semantic_id(match.match_semantic_id)
             if remote_matching_service is None:
                 continue
