@@ -140,8 +140,11 @@ class SemanticMatchingService:
 
         # Check if the response is successful (status code 200)
         if response.status_code == 200:
+            print("It is 200")
+            print(response.text)
             # Parse the JSON response and construct SMSResponse object
             response_json = response.json()
+            print(f"response json: {response_json}")
             sms_response = resolver_service.SMSResponse(
                 semantic_matching_service_endpoint=response_json['semantic_matching_service_endpoint'],
                 meta_information=response_json['meta_information']
