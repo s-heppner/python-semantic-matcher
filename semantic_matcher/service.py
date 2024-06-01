@@ -135,7 +135,8 @@ class SemanticMatchingService:
         request_body = resolver_service.SMSRequest(semantic_id=semantic_id)
         endpoint = config['RESOLVER']['endpoint']
         port = config['RESOLVER'].getint('port')
-        response = requests.get(f"{endpoint}:{port}/get_semantic_matching_service", json=request_body.dict())
+        url = f"{endpoint}:{port}/get_semantic_matching_service"
+        response = requests.get(url, json=request_body.dict())
 
         # Check if the response is successful (status code 200)
         if response.status_code == 200:
