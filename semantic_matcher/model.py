@@ -48,7 +48,6 @@ class EquivalenceTable(BaseModel):
                     if "path" not in rec_match.meta_information:
                         rec_match.meta_information["path"] = []
                     rec_match.meta_information["path"].insert(0, match.match_semantic_id)
-                print(f"Recursive call local matches on id: {match.match_semantic_id} with limit {[score_limit/match.score]}: {rec_result}")
                 if rec_result is not None:
                     matching_result += rec_result
         return matching_result

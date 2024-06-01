@@ -109,14 +109,14 @@ class SemanticMatchingService:
                 name=request_body.name,
                 definition=request_body.definition
             )
-            new_matches_response = requests.get(remote_matching_service, data=remote_matching_request)
-            match_response: service_model.MatchesList = service_model.MatchesList.model_validate_json(
-                new_matches_response.json()
-            )
+            url = f"{remote_matching_service}/get_matches"
+            new_matches_response = requests.get(url, json=remote_matching_request.dict())
+            match_response = service_model.MatchesList.model_validate_json(new_matches_response.text)
             additional_remote_matches.extend(match_response.matches)
         # Finally, put all matches together and return
         matches.extend(additional_remote_matches)
-        return service_model.MatchesList(matches=matches)
+        res = service_model.MatchesList(matches=matches)
+        return res
 
     def post_matches(
             self,
@@ -140,11 +140,8 @@ class SemanticMatchingService:
 
         # Check if the response is successful (status code 200)
         if response.status_code == 200:
-            print("It is 200")
-            print(response.text)
             # Parse the JSON response and construct SMSResponse object
             response_json = response.json()
-            print(f"response json: {response_json}")
             sms_response = resolver_service.SMSResponse(
                 semantic_matching_service_endpoint=response_json['semantic_matching_service_endpoint'],
                 meta_information=response_json['meta_information']
