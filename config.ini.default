@@ -4,5 +4,5 @@ port=8000
 equivalence_table_file=./data/equivalence_table.json
 
 [RESOLVER]
-endpoint=http://127.0.0.1
+endpoint=http://semantic_id_resolver
 port=8125
