@@ -59,6 +59,11 @@ class SemanticMatchingService:
             self.post_matches,
             methods=["POST"]
         )
+        self.router.add_api_route(
+            "/clear",
+            self.remove_all_matches,
+            methods=["POST"]
+        )
         self.endpoint: str = endpoint
         self.equivalence_table: model.EquivalenceTable = equivalences
 
@@ -71,6 +76,9 @@ class SemanticMatchingService:
         """
         matches = self.equivalence_table.get_all_matches()
         return matches
+
+    def remove_all_matches(self):
+        self.equivalence_table.remove_all_semantic_matches()
 
     def get_matches(
             self,

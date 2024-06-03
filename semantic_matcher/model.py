@@ -33,6 +33,9 @@ class EquivalenceTable(BaseModel):
             if len(self.matches.get(match.base_semantic_id)) == 0:
                 self.matches.pop(match.base_semantic_id)
 
+    def remove_all_semantic_matches(self):
+        self.matches.clear()
+
     def get_local_matches(self, semantic_id: str, score_limit: float) -> List[SemanticMatch]:
         equivalence_table_result = self.matches.get(semantic_id)
         if equivalence_table_result is None:
