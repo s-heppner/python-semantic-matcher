@@ -40,11 +40,6 @@ class SemanticMatchingService:
         self.router = APIRouter()
 
         self.router.add_api_route(
-            "/",
-            self.read_root,
-            methods=["GET"]
-        )
-        self.router.add_api_route(
             "/all_matches",
             self.get_all_matches,
             methods=["GET"]
