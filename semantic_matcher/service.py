@@ -4,7 +4,6 @@ import requests
 from fastapi import APIRouter
 
 from semantic_matcher import model, service_model
-from resolver_modules import service as resolver_service
 
 
 class SemanticMatchingService:
@@ -61,9 +60,6 @@ class SemanticMatchingService:
         )
         self.endpoint: str = endpoint
         self.equivalence_table: model.EquivalenceTable = equivalences
-
-    def read_root(self):
-        return {"message": "Hello, World!"}
 
     def get_all_matches(self):
         """
@@ -138,7 +134,7 @@ class SemanticMatchingService:
 
         :returns: The endpoint with which the `SemanticMatchingService` can be accessed
         """
-        request_body = resolver_service.SMSRequest(semantic_id=semantic_id)
+        request_body = {"semantic_id": semantic_id}
         endpoint = config['RESOLVER']['endpoint']
         port = config['RESOLVER'].getint('port')
         url = f"{endpoint}:{port}/get_semantic_matching_service"
@@ -148,11 +144,8 @@ class SemanticMatchingService:
         if response.status_code == 200:
             # Parse the JSON response and construct SMSResponse object
             response_json = response.json()
-            sms_response = resolver_service.SMSResponse(
-                semantic_matching_service_endpoint=response_json['semantic_matching_service_endpoint'],
-                meta_information=response_json['meta_information']
-            )
-            return sms_response.semantic_matching_service_endpoint
+            response_endpoint = response_json['semantic_matching_service_endpoint']
+            return response_endpoint
 
         return None
 
