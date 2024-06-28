@@ -138,7 +138,7 @@ class SemanticMatchingService:
         endpoint = config['RESOLVER']['endpoint']
         port = config['RESOLVER'].getint('port')
         url = f"{endpoint}:{port}/get_semantic_matching_service"
-        response = requests.get(url, json=request_body.dict())
+        response = requests.get(url, json=request_body)
 
         # Check if the response is successful (status code 200)
         if response.status_code == 200:
