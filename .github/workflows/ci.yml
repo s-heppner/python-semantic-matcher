@@ -3,7 +3,7 @@ name: test
 on:
   push:
     branches:
-      - wip/testing
+      - '**'
 
 jobs:
   build:
