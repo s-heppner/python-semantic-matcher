@@ -1,7 +1,7 @@
 [SERVICE]
 endpoint=http://127.0.0.1
 port=8000
-equivalence_table_file=./data/equivalence_table.json
+equivalence_table_file=./resources/equivalence_table.json
 
 [RESOLVER]
 endpoint=http://semantic_id_resolver

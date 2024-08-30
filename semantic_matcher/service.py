@@ -112,7 +112,7 @@ class SemanticMatchingService:
                 definition=request_body.definition
             )
             url = f"{remote_matching_service}/get_matches"
-            new_matches_response = requests.get(url, json=remote_matching_request.dict())
+            new_matches_response = requests.get(url, json=remote_matching_request.model_dump_json())
             match_response = service_model.MatchesList.model_validate_json(new_matches_response.text)
             additional_remote_matches.extend(match_response.matches)
         # Finally, put all matches together and return
