@@ -1,5 +1,6 @@
 [SERVICE]
 endpoint=http://127.0.0.1
+LISTEN_ADDRESS=127.0.0.1
 port=8000
 equivalence_table_file=./resources/equivalence_table.json
 
