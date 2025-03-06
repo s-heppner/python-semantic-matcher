@@ -1,0 +1,26 @@
+[
+    {
+        "base_semantic_id": "A",
+        "match_semantic_id": "B",
+        "score": 0.8,
+        "path": []
+    },
+    {
+        "base_semantic_id": "B",
+        "match_semantic_id": "C",
+        "score": 0.7,
+        "path": []
+    },
+    {
+        "base_semantic_id": "B",
+        "match_semantic_id": "D",
+        "score": 0.6,
+        "path": []
+    },
+    {
+        "base_semantic_id": "C",
+        "match_semantic_id": "D",
+        "score": 0.9,
+        "path": []
+    }
+]

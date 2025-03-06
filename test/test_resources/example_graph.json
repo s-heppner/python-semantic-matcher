@@ -1,0 +1,20 @@
+[
+    {
+        "base_semantic_id": "https://s-heppner.com/semantic_id/one",
+        "match_semantic_id": "https://s-heppner.com/semantic_id/uno",
+        "score": 0.9,
+        "path": []
+    },
+    {
+        "base_semantic_id": "https://s-heppner.com/semantic_id/one",
+        "match_semantic_id": "https://remote.com/semantic_id/deux",
+        "score": 0.7,
+        "path": []
+    },
+    {
+        "base_semantic_id": "https://s-heppner.com/semantic_id/uno",
+        "match_semantic_id": "https://s-heppner.com/semantic_id/trois",
+        "score": 0.6,
+        "path": []
+    }
+]
