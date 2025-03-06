@@ -1,31 +1,63 @@
-name: test
+name: ci
 
-on:
-  push:
-    branches:
-      - '**'
+on: [push, pull_request]
+
+
+env:
+  X_PYTHON_VERSION: "3.11"
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-
+    # This job checks if the build succeeds
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ env.X_PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
-          architecture: x64
+          python-version: ${{ env.X_PYTHON_VERSION }}
+
+      - name: Build the package
+        run: pip install .
+
+  test:
+    # This job runs the unittests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.X_PYTHON_VERSION }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.X_PYTHON_VERSION }}
 
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
 
       - name: Run Python Tests
         run: python -m unittest discover
+
+  static-analysis:
+    # This job runs static code analysis, namely pycodestyle and mypy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.X_PYTHON_VERSION }}
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
+      - name: Check typing with MyPy
+        run: |
+          mypy semantic_matcher test
+      - name: Check code style with PyCodestyle
+        run: |
+          pycodestyle --count --max-line-length 120 semantic_matcher test

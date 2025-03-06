@@ -16,6 +16,14 @@ dependencies = [
     "pydantic>=1.10",
     "uvicorn>=0.21.1",
     "requests>=2.31.0",
+    "networkx>=3.4.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy",
+    "pycodestyle",
+    "coverage",
 ]
 
 [tool.setuptools]
