@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semantic_matcher"
+version = "0.1.0"
+description = "A Prototype Semantic Matcher implemented in Python"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Sebastian Heppner", email = "mail@s-heppner.com" }
+]
+dependencies = [
+    "fastapi>=0.95.0",
+    "pydantic>=1.10",
+    "uvicorn>=0.21.1",
+    "requests>=2.31.0",
+]
+
+[tool.setuptools]
+packages = { find = { include = ["semantic_matcher"], exclude = ["test*"] } }
