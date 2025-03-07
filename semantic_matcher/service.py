@@ -80,7 +80,6 @@ class SemanticMatchingService:
         matches = self.graph.get_all_matches()
         return matches
 
-
     def get_matches(
             self,
             request_body: MatchRequest
@@ -134,8 +133,6 @@ class SemanticMatchingService:
                 score_limit=float(request_body.score_limit/match.score),
                 # If we already request a remote score, it does not make sense to choose `local_only`
                 local_only=False,
-                name=request_body.name,
-                definition=request_body.definition,
                 already_checked_locations=already_checked_locations
             )
             url = f"{remote_matching_service}/get_matches"

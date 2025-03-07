@@ -84,7 +84,7 @@ def run_server_context():
             os.kill(server_process.pid, signal.SIGKILL)
             server_process.join()
 
-# @unittest.skip("These tests need to be adapted")
+
 class TestSemanticMatchingService(unittest.TestCase):
     def test_get_all_matches(self):
         with run_server_context():
