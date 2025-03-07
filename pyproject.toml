@@ -24,6 +24,8 @@ dev = [
     "mypy",
     "pycodestyle",
     "coverage",
+    "types-networkx",  # Type hints for networkx
+    "types-requests",   # Type hints for requests
 ]
 
 [tool.setuptools]

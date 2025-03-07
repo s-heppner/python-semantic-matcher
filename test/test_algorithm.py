@@ -38,7 +38,7 @@ class TestSemanticMatchGraph(unittest.TestCase):
         """Test that an empty graph returns an empty list."""
         empty_graph = algorithm.SemanticMatchGraph()
         matches = empty_graph.get_all_matches()
-        self.assertEqual([], matches,"Empty graph should return an empty list.")
+        self.assertEqual([], matches, "Empty graph should return an empty list.")
 
     def test_get_all_matches_duplicate_edges(self):
         """Test handling of duplicate edges with different scores."""
@@ -46,13 +46,13 @@ class TestSemanticMatchGraph(unittest.TestCase):
         matches = self.graph.get_all_matches()
 
         expected_matches = [
-            algorithm.SemanticMatch(base_semantic_id="A", match_semantic_id="B", score=0.9, path=[]),  # Overwritten edge
+            algorithm.SemanticMatch(base_semantic_id="A", match_semantic_id="B", score=0.9, path=[]),
             algorithm.SemanticMatch(base_semantic_id="B", match_semantic_id="C", score=0.6, path=[]),
             algorithm.SemanticMatch(base_semantic_id="C", match_semantic_id="D", score=0.9, path=[]),
         ]
 
         self.assertEqual(len(matches), 3, "Duplicate edge handling failed.")
-        self.assertCountEqual(expected_matches, matches,"Matches do not match expected results.")
+        self.assertCountEqual(expected_matches, matches, "Matches do not match expected results.")
 
     def test_get_all_matches_varying_weights(self):
         """Test that matches with different weights are retrieved correctly."""
@@ -351,6 +351,7 @@ class TestFindSemanticMatches(unittest.TestCase):
             # f"A -> B -> C -> E = {0.8*0.6*0.5}",  # 0.24 => out
         ]
         self.assertEqual(expected, matches_str)
+
 
 if __name__ == "__main__":
     unittest.main()

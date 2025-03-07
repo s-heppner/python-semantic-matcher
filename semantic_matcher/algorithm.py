@@ -132,7 +132,9 @@ def find_semantic_matches(
 
         # Traverse to the neighboring and therefore connected `semantic_id`s
         for neighbor, edge_data in graph[node].items():
-            new_score: float = score * edge_data["weight"]  # Multiplicative propagation
+            edge_weight = edge_data["weight"]
+            assert isinstance(edge_weight, float)
+            new_score: float = score * edge_weight  # Multiplicative propagation
 
             # Prevent loops by ensuring we do not revisit the start node after the first iteration
             if neighbor == semantic_id:
