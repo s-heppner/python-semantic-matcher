@@ -203,7 +203,16 @@ if __name__ == '__main__':
         endpoint=config["SERVICE"]["endpoint"],
         graph=match_graph,
     )
-    APP = FastAPI()
+    with open("../README.md", "r") as file:
+        description = file.read()
+    APP = FastAPI(
+        title="Semantic Matching Service",
+        description=description,
+        contact={
+            "name": "Sebastian Heppner",
+            "url": "https://github.com/s-heppner",
+        },
+    )
     APP.include_router(
         SEMANTIC_MATCHING_SERVICE.router
     )
