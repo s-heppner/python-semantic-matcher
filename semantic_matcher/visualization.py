@@ -1,9 +1,27 @@
 import matplotlib.pyplot as plt  # type: ignore
 import networkx as nx
+import pyvis.network
 
 from semantic_matcher.algorithm import SemanticMatchGraph
 
-# Todo: This is WIP
+
+def _to_pyvis_network(g: SemanticMatchGraph) -> pyvis.network.Network:
+    network = pyvis.network.Network(notebook=True, directed=True, height="600px", width="100%")
+
+    # Manually add nodes and edges with labels for weights
+    for node in g.nodes():
+        network.add_node(node, label=node)  # Todo: Do something smart with labels, e.g. source
+
+    for source, target, data in g.edges(data=True):
+        # This breaks, if weight is missing, but that is expected behaviour, since we need a semantic similarity score
+        weight = data["weight"]
+        network.add_edge(source, target, label=str(weight), title=f"Weight: {weight}")
+
+    # Enable physics for animation and gravity effects
+    # network.force_atlas_2based()
+    network.toggle_physics(True)
+    network.show_buttons(filter_=['physics'])
+    return network
 
 
 def save_graph_as_figure(g: SemanticMatchGraph, filename: str) -> None:
@@ -24,10 +42,12 @@ def save_graph_as_figure(g: SemanticMatchGraph, filename: str) -> None:
 
 if __name__ == "__main__":
     graph_complex = SemanticMatchGraph()
-    graph_complex.add_edge("A", "B", weight=0.9, source="dataset1")
-    graph_complex.add_edge("A", "C", weight=0.8, source="dataset2")
-    graph_complex.add_edge("B", "D", weight=0.7, source="dataset3")
-    graph_complex.add_edge("C", "D", weight=0.6, source="dataset4")
-    graph_complex.add_edge("D", "E", weight=0.5, source="dataset5")
+    graph_complex.add_edge("A", "B", weight=0.9)
+    graph_complex.add_edge("A", "C", weight=0.8)
+    graph_complex.add_edge("B", "D", weight=0.7)
+    graph_complex.add_edge("C", "D", weight=0.6)
+    graph_complex.add_edge("D", "E", weight=0.5)
 
-    save_graph_as_figure(graph_complex, "temp.png")
+    net = _to_pyvis_network(graph_complex)
+
+    net.save_graph("graph.html")
