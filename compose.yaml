@@ -1,0 +1,9 @@
+services:
+  semantic_matching_service:
+    build: .
+    container_name: semantic_matching_service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    working_dir: /app/semantic_matcher
+    command: ["python", "service.py"]
