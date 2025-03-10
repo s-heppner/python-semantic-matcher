@@ -1,5 +1,5 @@
 # Use the official Alpine Linux as the base image
-FROM python:3.9-alpine
+FROM python:3.11-alpine
 
 # Install Git
 RUN apk update && apk add --no-cache git
@@ -10,11 +10,9 @@ WORKDIR /app
 # Copy the package files to the working directory
 COPY . .
 
-# Install system dependencies
-# RUN apk --no-cache add build-base libffi-dev
-
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --upgrade pip
+RUN pip install .
 
 # Set PYTHONPATH to the app directory
 ENV PYTHONPATH=/app
