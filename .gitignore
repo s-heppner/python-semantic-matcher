@@ -21,3 +21,6 @@
 
 # customized config files
 /test/test_config.ini
+
+# Neo4J Data
+compose_with_neo4j/data

@@ -1,0 +1,25 @@
+services:
+  semantic_matching_service:
+    build: ..
+    container_name: semantic_matching_service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    working_dir: /app/semantic_matcher
+    command: ["python", "service.py"]
+
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    volumes:
+      - ./data/neo4j/logs:/logs
+      - ./data/neo4j/config:/config
+      - ./data/neo4j/data:/data
+      - ./data/neo4j/plugins:/plugins
+    environment:
+      - NEO4J_AUTH=neo4j/your_password
+      - NEO4J_dbms_usage__report_enabled=false
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: always

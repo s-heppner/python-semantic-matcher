@@ -17,6 +17,7 @@ dependencies = [
     "uvicorn>=0.21.1",
     "requests>=2.31.0",
     "networkx>=3.4.2",
+
 ]
 
 [project.optional-dependencies]
@@ -26,6 +27,9 @@ dev = [
     "coverage",
     "types-networkx",  # Type hints for networkx
     "types-requests",   # Type hints for requests
+]
+neo4j = [
+    "neo4j>=5.28.1",
 ]
 
 [tool.setuptools]

@@ -4,6 +4,7 @@ import heapq
 
 import networkx as nx
 from pydantic import BaseModel
+from neo4j import GraphDatabase
 
 
 class SemanticMatchGraph(nx.DiGraph):
@@ -51,6 +52,34 @@ class SemanticMatchGraph(nx.DiGraph):
                 match_semantic_id=match_data["match_semantic_id"],
                 score=match_data["score"]
             )
+        return graph
+
+    def to_neo4j(self, url: str, user: str, password: str):
+        driver = GraphDatabase.driver(url, auth=(user, password))
+        with driver.session() as session:
+            # Optional: clear previous graph
+            session.run("MATCH (n) DETACH DELETE n")
+
+            for u, v, data in self.edges(data=True):
+                session.run("""
+                    MERGE (a:Semantic {id: $u})
+                    MERGE (b:Semantic {id: $v})
+                    MERGE (a)-[:MATCH {score: $score}]->(b)
+                """, u=u, v=v, score=data["weight"])
+        driver.close()
+
+    @classmethod
+    def from_neo4j(cls, url: str, user: str, password: str) -> "SemanticMatchGraph":
+        graph = cls()
+        driver = GraphDatabase.driver(url, auth=(user, password))
+        with driver.session() as session:
+            result = session.run("""
+                MATCH (a:Semantic)-[r:MATCH]->(b:Semantic)
+                RETURN a.id AS u, b.id AS v, r.score AS score
+            """)
+            for record in result:
+                graph.add_semantic_match(record["u"], record["v"], record["score"])
+        driver.close()
         return graph
 
 
@@ -145,3 +174,17 @@ def find_semantic_matches(
                 heapq.heappush(pq, (-new_score, neighbor, path + [node]))  # Push updated path
 
     return results
+
+
+if __name__ == '__main__':
+    graph_complex = SemanticMatchGraph()
+    graph_complex.add_edge("A", "B", weight=0.9)
+    graph_complex.add_edge("A", "C", weight=0.8)
+    graph_complex.add_edge("B", "D", weight=0.7)
+    graph_complex.add_edge("C", "D", weight=0.6)
+    graph_complex.add_edge("D", "E", weight=0.5)
+    graph_complex.to_neo4j(
+        url="bolt://localhost:7687",
+        user="neo4j",
+        password="your_password"
+    )
